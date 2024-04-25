@@ -1,7 +1,7 @@
 // Create Vue App instance
 const app = Vue.createApp({
-    // Data, Functions
-    template: "<h2>I am the template</h2>"
+    // You can either create the template during intialization or create it directly in the app. This is where dynamic data is defined to be accessed in html.
+    
 })
 
 // Mount Vue component to an id of #app
