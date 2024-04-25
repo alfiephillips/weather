@@ -11,8 +11,23 @@
     <h1>Hello Vue!</h1>
 
     <div id="app">
-      <!-- Looks like standard written html, however it can be accessed by Vue and output dynamic data -->
-      <h2>I am the template</h2>
+      <!-- Looks like standard written html, however it can be accessed by Vue and output dynamic data. Syntax {{ __variable__ }} -->
+      <table>
+        <thead>
+          <tr>
+            <th>Title&nbsp;</th>
+            <th>Author&nbsp;</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{title}}</td>
+            <td>{{author}}</td>
+            <td>{{age}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <footer>
