@@ -7,7 +7,12 @@ const app = Vue.createApp({
             // Return an object of listed variables to use.
             title: "The Final Empire",
             author: "Alfie Phillips",
-            age: Math.random().toFixed(2) * 100
+            age: 0
+        }
+    },
+    methods: {
+        changeTitle(title) {
+            this.title = title
         }
     }
 })
