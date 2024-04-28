@@ -1,5 +1,8 @@
 // Create Vue App instance
-const app = Vue.createApp({
+
+const {createApp, ref} = Vue
+
+const app = createApp({
     // You can either create the template during intialization or create it directly in the app. This is where dynamic data is defined to be accessed in html.
     
     data() { // The data function; serve data into the application.

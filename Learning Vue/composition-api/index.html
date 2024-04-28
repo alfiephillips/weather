@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Vue v3 with the Composition API</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <div id="app">
+      <h1>Counter</h1>
+      <p>{{count}}</p>
+      <button @click="increment">Increment</button>
+      <button @click="decrement">Decrement</button>
+    </div>
+
+    <script>
+      let { ref } = Vue;
+
+      const app = Vue.createApp({
+        setup() {
+          let count = ref(0);
+
+          function increment() {
+            count.value++;
+          }
+
+          function decrement() {
+            count.value--;
+          }
+
+          return {
+            count,
+            increment,
+            decrement,
+          };
+        },
+      })
+
+      console.log(app.config)
+      app.mount("#app");
+    </script>
+  </body>
+</html>
