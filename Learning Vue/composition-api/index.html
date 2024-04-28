@@ -9,41 +9,77 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <div id="app">
-      <h1>Counter</h1>
-      <p>{{state.count}}</p>
-      <button @click="increment">Increment</button>
-      <button @click="decrement">Decrement</button>
+      <!-- Standard loop through a list. -->
+      <ol>
+        <li v-for="{message} in items">{{message}}</li>
+      </ol>
+
+      <br />
+      <!-- Looping through objects. -->
+      <ol>
+        <li v-for="(value, key) in exampleObject">{{key}}: {{value}}</li>
+      </ol>
+
+      <!-- Looping with a range. -->
+      <span v-for="n in 10">{{n}}</span>
+      
+      <!-- Looping with a template tag to render a block of multiple elements. -->
+      <ul>
+        <template v-for="{message} in items">
+          <li>{{ message }}</li>
+          <hr />
+        </template>
+      </ul>
+
+      <!-- Looping with conditional statements. Provide a key whenever possible to give Vue a hint so that it can track nodes.  -->
+      <template v-for="todo in toDos" :key="todo.name">
+        <li v-if="!todo.isCompleted">
+          {{todo.name}}
+        </li>
+      </template>
     </div>
 
     <script>
       // Imports from Vue ex. ref (declaring a reactive state for a variable)
-      const { reactive } = Vue;
+      const { ref, reactive } = Vue;
+
+      // Looping with a list and accessing the data properties
+      const items = ref([
+        { message: "Hey this is the first message!" },
+        { message: "This is the second message" },
+      ]);
+
+      // Looping with an object and accessing data properties.
+      const exampleObject = reactive({
+        title: "How to do lists in Vue",
+        author: "Jane Doe",
+        publishedAt: "2016-04-10",
+      });
+
+      const toDos = reactive([
+        {
+          name: "Thing number one!",
+          isCompleted: true
+        },
+        {
+          name: "Thing number two!",
+          isCompleted: false
+        }
+      ])
 
       // Create the app instance; initialize setup to serve as an entry point for the Composition API.
       const app = Vue.createApp({
         setup() {
-          let state = reactive({
-            count: 0
-          })
-
-          function increment() {
-            state.count++;
-          }
-
-          function decrement() {
-            state.count--;
-          }
-
           return {
-            state,
-            increment,
-            decrement,
+            items,
+            exampleObject,
+            toDos
           };
         },
-      })
+      });
 
       // Configuration settings for the application. You are able to modify properties such as errorHandler and performance.
-      
+
       app.config.errorHandler = (err, instance, info) => {
         // Handle the error on a global scale
 
@@ -51,8 +87,8 @@
         console.log("Vue instance: ", instance);
         console.log("Info: ", info);
 
-        alert("There has been an error at ", instance)
-      }
+        alert("There has been an error at ", instance);
+      };
       app.mount("#app");
     </script>
   </body>
