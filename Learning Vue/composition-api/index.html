@@ -10,35 +10,49 @@
 
     <div id="app">
       <h1>Counter</h1>
-      <p>{{count}}</p>
+      <p>{{state.count}}</p>
       <button @click="increment">Increment</button>
       <button @click="decrement">Decrement</button>
     </div>
 
     <script>
-      let { ref } = Vue;
+      // Imports from Vue ex. ref (declaring a reactive state for a variable)
+      const { reactive } = Vue;
 
+      // Create the app instance; initialize setup to serve as an entry point for the Composition API.
       const app = Vue.createApp({
         setup() {
-          let count = ref(0);
+          let state = reactive({
+            count: 0
+          })
 
           function increment() {
-            count.value++;
+            state.count++;
           }
 
           function decrement() {
-            count.value--;
+            state.count--;
           }
 
           return {
-            count,
+            state,
             increment,
             decrement,
           };
         },
       })
 
-      console.log(app.config)
+      // Configuration settings for the application. You are able to modify properties such as errorHandler and performance.
+      
+      app.config.errorHandler = (err, instance, info) => {
+        // Handle the error on a global scale
+
+        console.error("Global Error: ", err);
+        console.log("Vue instance: ", instance);
+        console.log("Info: ", info);
+
+        alert("There has been an error at ", instance)
+      }
       app.mount("#app");
     </script>
   </body>
