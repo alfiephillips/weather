@@ -9,29 +9,95 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <div id="app">
-      <button @click="condition = !condition">Toggle</button>
-
-      <!-- The first solution revolves around a basic condition which involves if and else statements. -->
-      <h1 v-if="condition">Vue is awesome!</h1>
-      <h1 v-else>Oh no 😢</h1>
-
-      <!-- The second alternative uses the v-show method to toggle if something is shown or not without removing it from the DOM.-->
-      <h1 v-show="condition">Vue is awesome again!</h1>
+      <h1>Hey</h1>
+      <button id="count" @click="count++">
+        Watch how this value changes: {{count}}
+      </button>
+      <button @click="exitApplication">Exit Application</button>
     </div>
 
     <script>
       // Imports from Vue ex. ref (declaring a reactive state for a variable)
-      const { ref, reactive, onMounted } = Vue;
+      const { ref, onMounted, onUnmounted, onUpdated, onErrorCaptured } = Vue;
 
       const DEBUG = true;
 
       // Create the app instance; initialize setup to serve as an entry point for the Composition API.
       const app = Vue.createApp({
         setup() {
-          const condition = ref(true);
+          const count = ref(0);
+
+          // Registers a callback to be called after the component has been mounted.
+          onMounted(() => {
+            console.log(
+              "The SFC is now mounted! Here is the element value: ",
+              document.getElementById("count").textContent
+            );
+          });
+
+          // The unmounted callback is called when the application is exited and all components have been destroyed.
+          onUnmounted(() => {
+            console.log("The SFC is starting to be unmounted. The element doesn't exist.'")
+          });
+
+          // The updated callback is called everytime a there is a reactive state change; updating the DOM tree.
+          onUpdated(() => {
+            console.log(
+              "The SFC has been updated! Here is the element value: ",
+              document.getElementById("count").textContent
+            );
+          });
+          
+          // A simple function to exit the application and de-mount components.
+          function exitApplication() {
+            app.unmount()
+          }
+
+          // There is also an onErrorCaptured() hook burt by default it runs to the errorHandler in the configuration. Use this to capture specific analytics of a descendant component.
+
+          /*
+            function onErrorCaptured(callback: ErrorCapturedHook): void
+
+            type ErrorCapturedHook = (
+              err: unknown,
+              instance: ComponentPublicInstance | null,
+              info: string
+            ) => boolean | void
+            */
+
+            // DEV ONLY HOOKS: onRenderTracked() and onRenderTriggered()
+
+          /*
+
+            function onRenderTracked(callback: DebuggerHook): void
+
+            type DebuggerHook = (e: DebuggerEvent) => void
+
+            type DebuggerEvent = {
+              effect: ReactiveEffect
+              target: object
+              type: TrackOpTypes 'get' | 'has' | 'iterate'
+              key: any
+            */
+
+          /*
+            function onRenderTriggered(callback: DebuggerHook): void
+
+            type DebuggerHook = (e: DebuggerEvent) => void
+
+            type DebuggerEvent = {
+              effect: ReactiveEffect
+              target: object
+              type: TriggerOpTypes 'set' | 'add' | 'delete' | 'clear' 
+              key: any
+              newValue?: any
+              oldValue?: any
+              oldTarget?: Map<any, any> | Set<any>
+            */
 
           return {
-            condition,
+            count,
+            exitApplication
           };
         },
       });
