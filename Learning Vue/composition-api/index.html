@@ -22,7 +22,7 @@
 
       <!-- Looping with a range. -->
       <span v-for="n in 10">{{n}}</span>
-      
+
       <!-- Looping with a template tag to render a block of multiple elements. -->
       <ul>
         <template v-for="{message} in items">
@@ -32,50 +32,50 @@
       </ul>
 
       <!-- Looping with conditional statements. Provide a key whenever possible to give Vue a hint so that it can track nodes.  -->
+      <h2>TODOS: </h2>
       <template v-for="todo in toDos" :key="todo.name">
-        <li v-if="!todo.isCompleted">
-          {{todo.name}}
-        </li>
+        <li v-if="!todo.isCompleted">{{todo.name}}</li>
       </template>
+      
     </div>
 
     <script>
       // Imports from Vue ex. ref (declaring a reactive state for a variable)
-      const { ref, reactive } = Vue;
-
-      // Looping with a list and accessing the data properties
-      const items = ref([
-        { message: "Hey this is the first message!" },
-        { message: "This is the second message" },
-      ]);
-
-      // Looping with an object and accessing data properties.
-      const exampleObject = reactive({
-        title: "How to do lists in Vue",
-        author: "Jane Doe",
-        publishedAt: "2016-04-10",
-      });
-
-      const toDos = reactive([
-        {
-          name: "Thing number one!",
-          isCompleted: true
-        },
-        {
-          name: "Thing number two!",
-          isCompleted: false
-        }
-      ])
+      const { ref, reactive, computed, onMounted } = Vue;
 
       // Create the app instance; initialize setup to serve as an entry point for the Composition API.
       const app = Vue.createApp({
         setup() {
+          // Looping with a list and accessing the data properties
+          const items = ref([
+            { message: "Hey this is the first message!" },
+            { message: "This is the second message" },
+          ]);
+
+          // Looping with an object and accessing data properties.
+          const exampleObject = reactive({
+            title: "How to do lists in Vue",
+            author: "Jane Doe",
+            publishedAt: "2016-04-10",
+          });
+
+          const toDos = reactive([
+            {
+              name: "Thing number one!",
+              isCompleted: true,
+            },
+            {
+              name: "Thing number two!",
+              isCompleted: false,
+            },
+          ]);
+
           return {
             items,
             exampleObject,
-            toDos
+            toDos,
           };
-        },
+        }
       });
 
       // Configuration settings for the application. You are able to modify properties such as errorHandler and performance.
