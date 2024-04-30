@@ -9,73 +9,31 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <div id="app">
-      <!-- Standard loop through a list. -->
-      <ol>
-        <li v-for="{message} in items">{{message}}</li>
-      </ol>
+      <button @click="condition = !condition">Toggle</button>
 
-      <br />
-      <!-- Looping through objects. -->
-      <ol>
-        <li v-for="(value, key) in exampleObject">{{key}}: {{value}}</li>
-      </ol>
+      <!-- The first solution revolves around a basic condition which involves if and else statements. -->
+      <h1 v-if="condition">Vue is awesome!</h1>
+      <h1 v-else>Oh no 😢</h1>
 
-      <!-- Looping with a range. -->
-      <span v-for="n in 10">{{n}}</span>
-
-      <!-- Looping with a template tag to render a block of multiple elements. -->
-      <ul>
-        <template v-for="{message} in items">
-          <li>{{ message }}</li>
-          <hr />
-        </template>
-      </ul>
-
-      <!-- Looping with conditional statements. Provide a key whenever possible to give Vue a hint so that it can track nodes.  -->
-      <h2>TODOS: </h2>
-      <template v-for="todo in toDos" :key="todo.name">
-        <li v-if="!todo.isCompleted">{{todo.name}}</li>
-      </template>
-      
+      <!-- The second alternative uses the v-show method to toggle if something is shown or not without removing it from the DOM.-->
+      <h1 v-show="condition">Vue is awesome again!</h1>
     </div>
 
     <script>
       // Imports from Vue ex. ref (declaring a reactive state for a variable)
-      const { ref, reactive, computed, onMounted } = Vue;
+      const { ref, reactive, onMounted } = Vue;
+
+      const DEBUG = true;
 
       // Create the app instance; initialize setup to serve as an entry point for the Composition API.
       const app = Vue.createApp({
         setup() {
-          // Looping with a list and accessing the data properties
-          const items = ref([
-            { message: "Hey this is the first message!" },
-            { message: "This is the second message" },
-          ]);
-
-          // Looping with an object and accessing data properties.
-          const exampleObject = reactive({
-            title: "How to do lists in Vue",
-            author: "Jane Doe",
-            publishedAt: "2016-04-10",
-          });
-
-          const toDos = reactive([
-            {
-              name: "Thing number one!",
-              isCompleted: true,
-            },
-            {
-              name: "Thing number two!",
-              isCompleted: false,
-            },
-          ]);
+          const condition = ref(true);
 
           return {
-            items,
-            exampleObject,
-            toDos,
+            condition,
           };
-        }
+        },
       });
 
       // Configuration settings for the application. You are able to modify properties such as errorHandler and performance.
@@ -87,8 +45,17 @@
         console.log("Vue instance: ", instance);
         console.log("Info: ", info);
 
-        alert("There has been an error at ", instance);
+        alert("There has been an error; check console.");
       };
+
+      app.config.warnHandler = (msg, instance, trace) => {
+        console.error("Warning Message: ", msg);
+        console.log("Vue instance: ", instance);
+        console.log("Stack Trace: ", trace);
+      };
+
+      app.config.perfomance = DEBUG;
+
       app.mount("#app");
     </script>
   </body>
